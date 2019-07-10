@@ -34,7 +34,7 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
   const sliderDisabledActiveSectionColor = palette.neutralTertiary;
   const sliderDisabledInactiveSectionColor = palette.neutralLight;
 
-  const sliderThumbBackgroundColor = palette.white;
+  const sliderThumbBackgroundColor = palette.whiteTranslucent40;
   const sliderThumbBorderColor = palette.neutralSecondary;
   const sliderThumbDisabledBorderColor = palette.neutralTertiaryAlt;
 
@@ -296,7 +296,8 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
       classNames.valueLabel,
       {
         flexShrink: 1,
-        width: 30,
+        // width: 30,
+
         lineHeight: '1' // using a string here meaning it's relative to the size of the font
       },
       vertical
@@ -306,9 +307,9 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
             width: 40
           }
         : {
-            margin: '0 8px',
-            whiteSpace: 'nowrap',
-            width: 40
+            // margin: '0 8px',
+            whiteSpace: 'nowrap'
+            // width: 40
           }
     ]
   };

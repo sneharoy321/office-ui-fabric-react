@@ -14,7 +14,7 @@ import { IPositionedData, RectangleEdge, getOppositeEdge } from '../../utilities
 
 // Component Dependencies
 import { PositioningContainer, IPositioningContainer } from './PositioningContainer/index';
-import { Beak, BEAK_HEIGHT, BEAK_WIDTH } from './Beak/Beak';
+import { Beak, BEAK_HEIGHT, BEAK_WIDTH } from '../Beak/Beak';
 import { DirectionalHint } from '../../common/DirectionalHint';
 
 // Coachmark

@@ -108,6 +108,10 @@ export interface ISliderProps extends React.ClassAttributes<SliderBase> {
    */
   className?: string;
 
+  thumblabel?: boolean;
+
+  snaps?: boolean;
+
   /**
    * Optional mixin for additional props on the thumb button within the slider.
    */

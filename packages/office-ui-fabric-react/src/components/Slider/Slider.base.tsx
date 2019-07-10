@@ -3,10 +3,38 @@ import { BaseComponent, KeyCodes, css, getId, getRTL, getRTLSafeKeyCode } from '
 import { ISliderProps, ISlider, ISliderStyleProps, ISliderStyles } from './Slider.types';
 import { classNamesFunction, getNativeProps, divProperties } from '../../Utilities';
 import { Label } from '../../Label';
+// import { TooltipHost } from '../Tooltip';
+// import { DefaultButton } from '../Button';
+import { Beak } from '../../Beak';
+import { RectangleEdge, getOppositeEdge } from '../../utilities/positioning';
 
 export interface ISliderState {
   value?: number;
   renderedValue?: number;
+  /**
+   * The left position of the beak
+   */
+  beakLeft?: string;
+
+  /**
+   * The right position of the beak
+   */
+  beakTop?: string;
+
+  /**
+   * The right position of the beak
+   */
+  beakRight?: string;
+
+  /**
+   * The bottom position of the beak
+   */
+  beakBottom?: string;
+
+  /**
+   * Position of Coachmark/TeachingBubble in relation to target
+   */
+  targetPosition?: RectangleEdge;
 }
 
 const getClassNames = classNamesFunction<ISliderStyleProps, ISliderStyles>();
@@ -46,6 +74,15 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
     };
   }
 
+  private get _beakDirection(): RectangleEdge {
+    const { targetPosition } = this.state;
+    if (targetPosition === undefined) {
+      return RectangleEdge.bottom;
+    }
+
+    return getOppositeEdge(targetPosition);
+  }
+
   public render(): React.ReactElement<{}> {
     const {
       ariaLabel,
@@ -60,8 +97,13 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
       valueFormat,
       styles,
       theme,
-      originFromZero
+      originFromZero,
+      // snaps, // <--- added variable
+      thumblabel
     } = this.props;
+    const { beakLeft, beakTop, beakRight, beakBottom } = this.state;
+    // Defaulting the main background before passing it to the styles because it is used for `Beak` too.
+    const defaultColor = theme!.semanticColors.primaryButtonBackground;
     const value = this.value;
     const renderedValue = this.renderedValue;
     const thumbOffsetPercent: number = min === max ? 0 : ((renderedValue! - min!) / (max! - min!)) * 100;
@@ -107,7 +149,16 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
           >
             <div ref={this._sliderLine} className={classNames.line}>
               {originFromZero && (
-                <span className={css(classNames.zeroTick)} style={this._getStyleUsingOffsetPercent(vertical, zeroOffsetPercent)} />
+                <span className={css(classNames.zeroTick)} style={this._getStyleUsingOffsetPercent(vertical, zeroOffsetPercent)}>
+                  <Beak
+                    left={'blah'}
+                    top={beakTop}
+                    right={beakRight}
+                    bottom={beakBottom}
+                    direction={this._beakDirection}
+                    color={defaultColor}
+                  />
+                </span>
               )}
               <span ref={this._thumb} className={classNames.thumb} style={this._getStyleUsingOffsetPercent(vertical, thumbOffsetPercent)} />
               {originFromZero ? (
@@ -120,6 +171,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
                     className={css(classNames.lineContainer, classNames.activeSection)}
                     style={{ [lengthString]: Math.abs(zeroOffsetPercent - thumbOffsetPercent) + '%' }}
                   />
+
                   <span
                     className={css(classNames.lineContainer, classNames.inactiveSection)}
                     style={{ [lengthString]: Math.min(100 - thumbOffsetPercent, 100 - zeroOffsetPercent) + '%' }}
@@ -131,6 +183,11 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
                     className={css(classNames.lineContainer, classNames.activeSection)}
                     style={{ [lengthString]: thumbOffsetPercent + '%' }}
                   />
+                  {/* So basically this displays the value of the slider inline with the slider thumb and it only does
+                    so when specified by thumblabel property */}
+
+                  {thumblabel && showValue && <Label className={classNames.valueLabel}>{valueFormat ? valueFormat(value!) : value}</Label>}
+
                   <span
                     className={css(classNames.lineContainer, classNames.inactiveSection)}
                     style={{ [lengthString]: 100 - thumbOffsetPercent + '%' }}
@@ -138,8 +195,8 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
                 </>
               )}
             </div>
+            {!thumblabel && showValue && <Label className={classNames.valueLabel}>{valueFormat ? valueFormat(value!) : value}</Label>}
           </div>
-          {showValue && <Label className={classNames.valueLabel}>{valueFormat ? valueFormat(value!) : value}</Label>}
         </div>
       </div>
     ) as React.ReactElement<{}>;
@@ -195,7 +252,12 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
       return;
     }
 
-    const { max, min, step } = this.props;
+    const {
+      max,
+      min,
+      step
+      // snaps
+    } = this.props;
     const steps: number = (max! - min!) / step!;
     const sliderPositionRect: ClientRect = this._sliderLine.current.getBoundingClientRect();
     const sliderLength: number = !this.props.vertical ? sliderPositionRect.width : sliderPositionRect.height;
@@ -227,6 +289,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
     }
 
     this._updateValue(currentValue, renderedValue);
+    // after value is updated time to snap the value to the next good value
 
     if (!suppressEventCancelation) {
       event.preventDefault();
@@ -248,8 +311,12 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
     }
     return currentPosition;
   }
+
   private _updateValue(value: number, renderedValue: number): void {
-    const { step } = this.props;
+    const {
+      step
+      // snaps
+    } = this.props;
 
     let numDec = 0;
     if (isFinite(step!)) {
@@ -261,6 +328,12 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
     // Make sure value has correct number of decimal places based on number of decimals in step
     const roundedValue = parseFloat(value.toFixed(numDec));
     const valueChanged = roundedValue !== this.state.value;
+    // as long as current num value is diff than roundedVal then its changed so val change is true
+    console.log(renderedValue + ' ' + roundedValue);
+    // if the property is told to snap
+    // if (this.props.snaps) {
+    //   renderedValue = roundedValue;
+    // }
 
     this.setState(
       {

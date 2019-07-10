@@ -17,12 +17,14 @@ export class SliderBasicExample extends React.Component<{}, ISliderBasicExampleS
       <Stack tokens={stackTokens} styles={{ root: { maxWidth: 300 } }}>
         <Slider
           label="Basic example"
-          min={1}
-          max={5}
+          min={0}
+          max={4}
           step={1}
           defaultValue={2}
           showValue={true}
           onChange={(value: number) => console.log(value)}
+          thumblabel={true}
+          snaps={true}
         />
         <Slider label="Disabled example" min={50} max={500} step={50} defaultValue={300} showValue={true} disabled={true} />
         <Slider
