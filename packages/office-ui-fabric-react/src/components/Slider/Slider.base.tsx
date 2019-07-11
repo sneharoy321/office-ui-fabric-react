@@ -149,9 +149,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
           >
             <div ref={this._sliderLine} className={classNames.line}>
               {originFromZero && (
-                <span className={css(classNames.zeroTick)} style={this._getStyleUsingOffsetPercent(vertical, zeroOffsetPercent)}>
-
-                </span>
+                <span className={css(classNames.zeroTick)} style={this._getStyleUsingOffsetPercent(vertical, zeroOffsetPercent)} />
               )}
               <span ref={this._thumb} className={classNames.thumb} style={this._getStyleUsingOffsetPercent(vertical, thumbOffsetPercent)} />
               {originFromZero ? (
@@ -171,31 +169,33 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
                   />
                 </>
               ) : (
-                  <>
-                    <span
-                      className={css(classNames.lineContainer, classNames.activeSection)}
-                      style={{ [lengthString]: thumbOffsetPercent + '%' }}
-                    />
-                    {/* So basically this displays the value of the slider inline with the slider thumb and it only does
+                <>
+                  <span
+                    className={css(classNames.lineContainer, classNames.activeSection)}
+                    style={{ [lengthString]: thumbOffsetPercent + '%' }}
+                  />
+                  {/* So basically this displays the value of the slider inline with the slider thumb and it only does
                     so when specified by thumblabel property */}
 
-                    {thumblabel && showValue && <Label className={classNames.valueLabel}>{valueFormat ? valueFormat(value!) : value}</Label>}
-                    {thumblabel ?
-                      <Beak
-                        left={beakLeft}
-                        top={beakTop}
-                        right={beakRight}
-                        bottom={beakBottom}
-                        direction={this._beakDirection}
-                        color={defaultColor}
-                      />
-                      : <br></br>}
-                    <span
-                      className={css(classNames.lineContainer, classNames.inactiveSection)}
-                      style={{ [lengthString]: 100 - thumbOffsetPercent + '%' }}
+                  {thumblabel && showValue && <Label className={classNames.valueLabel}>{valueFormat ? valueFormat(value!) : value}</Label>}
+                  {thumblabel ? (
+                    <Beak
+                      left={beakLeft}
+                      top={beakTop}
+                      right={beakRight}
+                      bottom={beakBottom}
+                      direction={this._beakDirection}
+                      color={defaultColor}
                     />
-                  </>
-                )}
+                  ) : (
+                    <br />
+                  )}
+                  <span
+                    className={css(classNames.lineContainer, classNames.inactiveSection)}
+                    style={{ [lengthString]: 100 - thumbOffsetPercent + '%' }}
+                  />
+                </>
+              )}
             </div>
             {!thumblabel && showValue && <Label className={classNames.valueLabel}>{valueFormat ? valueFormat(value!) : value}</Label>}
           </div>
@@ -254,12 +254,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
       return;
     }
 
-    const {
-      max,
-      min,
-      step,
-      snaps
-    } = this.props;
+    const { max, min, step, snaps } = this.props;
     const steps: number = (max! - min!) / step!;
     const sliderPositionRect: ClientRect = this._sliderLine.current.getBoundingClientRect();
     const sliderLength: number = !this.props.vertical ? sliderPositionRect.width : sliderPositionRect.height;
@@ -315,10 +310,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
   }
 
   private _updateValue(value: number, renderedValue: number): void {
-    const {
-      step,
-      snaps
-    } = this.props;
+    const { step, snaps } = this.props;
 
     let numDec = 0;
     if (isFinite(step!)) {
