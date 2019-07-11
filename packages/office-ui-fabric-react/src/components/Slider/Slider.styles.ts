@@ -117,7 +117,7 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
         background: 'transparent',
         border: 'none',
         flexGrow: 1,
-        lineHeight: 28,
+        // lineHeight: 28,
         display: 'flex',
         alignItems: 'center',
         selectors: {
@@ -144,14 +144,14 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
             },
             vertical
               ? {
-                  left: -6,
-                  margin: '0 auto',
-                  transform: 'translateY(8px)'
-                }
+                left: -6,
+                margin: '0 auto',
+                transform: 'translateY(8px)'
+              }
               : {
-                  top: -6,
-                  transform: getRTL() ? 'translateX(50%)' : 'translateX(-50%)'
-                },
+                top: -6,
+                transform: getRTL() ? 'translateX(50%)' : 'translateX(-50%)'
+              },
             showTransitions && {
               transition: `left ${AnimationVariables.durationValue3} ${AnimationVariables.easeFunction1}`
             },
@@ -168,15 +168,15 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
       },
       vertical
         ? {
-            height: '100%',
-            width: 28,
-            padding: '8px 0' // Make room for thumb at bottom of line
-          }
+          height: '100%',
+          width: 28,
+          padding: '8px 0' // Make room for thumb at bottom of line
+        }
         : {
-            height: 28,
-            width: 'auto',
-            padding: '0 8px' // Make room for thumb at ends of line
-          },
+          height: 28,
+          width: 'auto',
+          padding: '0 8px' // Make room for thumb at ends of line
+        },
       ...[showValue ? classNames.showValue : undefined],
       ...[showTransitions ? classNames.showTransitions : undefined]
     ],
@@ -194,26 +194,26 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
             },
             vertical
               ? {
-                  width: 4,
-                  height: '100%'
-                }
+                width: 4,
+                height: '100%'
+              }
               : {
-                  height: 4,
-                  width: '100%'
-                }
+                height: 4,
+                width: '100%'
+              }
           ]
         }
       },
       vertical
         ? {
-            height: '100%',
-            width: 4,
-            margin: '0 auto',
-            flexDirection: 'column-reverse'
-          }
+          height: '100%',
+          width: 4,
+          margin: '0 auto',
+          flexDirection: 'column-reverse'
+        }
         : {
-            width: '100%'
-          }
+          width: '100%'
+        }
     ],
     lineContainer: [{}],
     activeSection: [
@@ -282,15 +282,15 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
       },
       props.vertical
         ? {
-            width: '16px',
-            height: '1px',
-            transform: getRTL() ? 'translateX(6px)' : 'translateX(-6px)'
-          }
+          width: '16px',
+          height: '1px',
+          transform: getRTL() ? 'translateX(6px)' : 'translateX(-6px)'
+        }
         : {
-            width: '1px',
-            height: '16px',
-            transform: 'translateY(-6px)'
-          }
+          width: '1px',
+          height: '16px',
+          transform: 'translateY(-6px)'
+        }
     ],
     valueLabel: [
       classNames.valueLabel,
@@ -302,15 +302,15 @@ export const getStyles = (props: ISliderStyleProps): ISliderStyles => {
       },
       vertical
         ? {
-            margin: '0 auto',
-            whiteSpace: 'nowrap',
-            width: 40
-          }
+          margin: '0 auto',
+          whiteSpace: 'nowrap',
+          width: 40
+        }
         : {
-            // margin: '0 8px',
-            whiteSpace: 'nowrap'
-            // width: 40
-          }
+          // margin: '0 8px',
+          whiteSpace: 'nowrap'
+          // width: 40
+        }
     ]
   };
 };

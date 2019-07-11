@@ -13,7 +13,7 @@ export function getStyles(props: IBeakStylesProps): IBeakStyles {
   return {
     root: [
       {
-        position: 'absolute',
+        //position: 'absolute',
         boxShadow: 'inherit',
         border: 'none',
         boxSizing: 'border-box',
