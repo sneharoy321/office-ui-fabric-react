@@ -19,12 +19,12 @@ export class SliderBasicExample extends React.Component<{}, ISliderBasicExampleS
           label="Basic example"
           min={0}
           max={4}
-          step={1}
+          step={2}
           defaultValue={2}
           showValue={true}
           onChange={(value: number) => console.log(value)}
           thumblabel={true}
-          snaps={true}
+          snaps
         />
         <Slider label="Disabled example" min={50} max={500} step={50} defaultValue={300} showValue={true} disabled={true} />
         <Slider

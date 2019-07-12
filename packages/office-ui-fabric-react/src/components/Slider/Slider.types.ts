@@ -108,8 +108,15 @@ export interface ISliderProps extends React.ClassAttributes<SliderBase> {
    */
   className?: string;
 
+  /**
+   * Optional flag to render the thumblabel.
+   */
   thumblabel?: boolean;
 
+  /**
+   * Optional flag to indicate snaps on movement of thumb.
+   * @defaultvalue false
+   */
   snaps?: boolean;
 
   /**

@@ -254,7 +254,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
       return;
     }
 
-    const { max, min, step, snaps } = this.props;
+    const { max, min, step } = this.props;
     const steps: number = (max! - min!) / step!;
     const sliderPositionRect: ClientRect = this._sliderLine.current.getBoundingClientRect();
     const sliderLength: number = !this.props.vertical ? sliderPositionRect.width : sliderPositionRect.height;
