@@ -24,6 +24,7 @@ export class SliderBasicExample extends React.Component<{}, ISliderBasicExampleS
           showValue={true}
           onChange={(value: number) => console.log(value)}
           thumblabel={true}
+          marks={true}
           snaps
         />
         <Slider label="Disabled example" min={50} max={500} step={50} defaultValue={300} showValue={true} disabled={true} />
@@ -33,6 +34,7 @@ export class SliderBasicExample extends React.Component<{}, ISliderBasicExampleS
           value={this.state.value}
           onChange={(value: number) => this.setState({ value })}
           showValue={true}
+          marks={true}
         />
         <Slider label="Example with formatted value" max={100} valueFormat={(value: number) => `${value}%`} showValue={true} />
         <Slider label="Origin from zero" min={-5} max={5} step={1} defaultValue={2} showValue originFromZero />

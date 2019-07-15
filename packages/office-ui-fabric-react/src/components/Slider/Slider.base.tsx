@@ -98,7 +98,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
       styles,
       theme,
       originFromZero,
-      snaps, // <--- added variable
+      marks,
       thumblabel
     } = this.props;
     const { beakLeft, beakTop, beakRight, beakBottom } = this.state;
@@ -148,9 +148,18 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
             data-is-focusable={!disabled}
           >
             <div ref={this._sliderLine} className={classNames.line}>
-              {originFromZero && (
-                <span className={css(classNames.zeroTick)} style={this._getStyleUsingOffsetPercent(vertical, zeroOffsetPercent)} />
+              {/* {this is where origin from zero stuff is} */}
+              {originFromZero && ( // line that adds the tick
+                <span
+                  className={css(classNames.zeroTick)}
+                  style={
+                    // the zeroOffsetPercent denotes where the tick mark should go
+                    this._getStyleUsingOffsetPercent(vertical, zeroOffsetPercent)
+                  }
+                />
               )}
+              {/* {tick marks will go here} */}
+              {typeof marks === 'boolean' && marks && this._addTickmarks(css(classNames.zeroTick))}
               <span ref={this._thumb} className={classNames.thumb} style={this._getStyleUsingOffsetPercent(vertical, thumbOffsetPercent)} />
               {originFromZero ? (
                 <>
@@ -163,7 +172,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
                     style={{ [lengthString]: Math.abs(zeroOffsetPercent - thumbOffsetPercent) + '%' }}
                   />
 
-                  <span
+                  <span // 2nd half of slider
                     className={css(classNames.lineContainer, classNames.inactiveSection)}
                     style={{ [lengthString]: Math.min(100 - thumbOffsetPercent, 100 - zeroOffsetPercent) + '%' }}
                   />
@@ -236,6 +245,29 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
     return {
       [direction]: thumbOffsetPercent + '%'
     };
+  }
+
+  private _addTickmarks(cssZeroTickClassNames: string | undefined) {
+    const { min, max, step, vertical } = this.props;
+    if (min === undefined || max === undefined || step === undefined) {
+      return [];
+    }
+    const ticks = [];
+    for (let i = 0; i <= 100; i += (100 * step) / (max - min)) {
+      // += number is basically the distance between each tick
+      ticks.push(
+        <span
+          className={cssZeroTickClassNames}
+          style={
+            // the zeroOffsetPercent denotes where the tick mark should go
+            this._getStyleUsingOffsetPercent(vertical, i)
+          }
+        />
+      );
+    }
+    console.log(ticks);
+    // return html here
+    return ticks;
   }
 
   private _onMouseDownOrTouchStart = (event: MouseEvent | TouchEvent): void => {
@@ -323,7 +355,7 @@ export class SliderBase extends BaseComponent<ISliderProps, ISliderState> implem
     const roundedValue = parseFloat(value.toFixed(numDec));
     const valueChanged = roundedValue !== this.state.value;
     // as long as current num value is diff than roundedVal then its changed so val change is true
-    console.log(renderedValue + ' ' + roundedValue);
+    // console.log(renderedValue + ' ' + roundedValue);
     // if the property is told to snap
     if (this.props.snaps) {
       renderedValue = roundedValue;

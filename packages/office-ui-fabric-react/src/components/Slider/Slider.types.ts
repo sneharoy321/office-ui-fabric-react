@@ -134,6 +134,14 @@ export interface ISliderProps extends React.ClassAttributes<SliderBase> {
    * @defaultvalue false
    */
   originFromZero?: boolean;
+
+  /**
+   * Optional flag to specify whether or not to add tick marks and
+   * takes in an array of values if there are restricted values
+   * the slider should go to
+   * @defaultvalue false
+   */
+  marks?: boolean | [];
 }
 
 /**
