@@ -69,7 +69,6 @@ exports[`Slider renders correctly 1`] = `
             display: flex;
             flex-grow: 1;
             height: 28px;
-            line-height: 28px;
             outline: transparent;
             padding-bottom: 0;
             padding-left: 8px;
@@ -205,6 +204,7 @@ exports[`Slider renders correctly 1`] = `
             }
           }
         />
+        <br />
         <span
           className=
               ms-Slider-inactive
@@ -255,6 +255,37 @@ exports[`Slider renders correctly 1`] = `
         0
       </label>
     </div>
+    <label
+      className=
+          ms-Label
+          ms-Slider-value
+          {
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            box-shadow: none;
+            box-sizing: border-box;
+            color: #323130;
+            display: block;
+            flex-shrink: 1;
+            font-family: 'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 0px;
+            overflow-wrap: break-word;
+            padding-bottom: 5px;
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: 5px;
+            white-space: nowrap;
+            word-wrap: break-word;
+          }
+    >
+      0
+    </label>
   </div>
 </div>
 `;
